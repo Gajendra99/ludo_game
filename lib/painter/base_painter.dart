@@ -27,6 +27,10 @@ class BasePainter extends CustomPainter {
       controller.redPositions.add([0.0, 1.0]);
     }
 
+    for (int i = 0; i < controller.greenPath.length; i++) {
+      controller.greenPositions.add([0.0, 1.0]);
+    }
+
     //Drawing Game Board
     gameBoard(canvas, fillPaint, paint);
 
@@ -126,17 +130,21 @@ class BasePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 
   void gameBoard(Canvas canvas, Paint fillPaint, Paint paint) {
-    print('${controller.redPath}');
+    print('BasePainter called');
     for (int i = 0; i < 15; i++) {
       for (int j = 0; j < 15; j++) {
         //Storing moving path cordinates for player
-        print('${controller.data[i][j]}');
         if (controller.redPath.contains(controller.data[i][j])) {
           controller.addRedPositions(i: i, j: j);
+        }
+
+        //Storing green playing moving path cordinates for player
+        if (controller.greenPath.contains(controller.data[i][j])) {
+          controller.addGreenPositions(i: i, j: j);
         }
         //Drawing moving paths for players
         if (controller.data[i][j] > 0 &&

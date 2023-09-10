@@ -5,34 +5,69 @@ class PainterController extends GetxController {
   //Starting positions of Players
   double startPoint = 6 * ((Get.width - 16) / 15);
 
+  var isGameUpdated = true.obs;
+
   //Cordinated of red Path
-  List redPositions = [];
-  List redPlayerPos = [
+
+  var redPlayerIndex = [0, 0, 0, 0].obs;
+  List redPositions = []; // actual position of red player
+  List greenPositions = []; // actual position of green player
+  List redCurrentPosition = [
+    [0.0, 0.0],
+    [0.0, 0.0],
+    [0.0, 0.0],
+    [0.0, 0.0]
+  ].obs;
+
+  List greenCurrentPosition = [
     [0.0, 0.0],
     [0.0, 0.0],
     [0.0, 0.0],
     [0.0, 0.0]
   ];
-  int redPlayerIndex = 0;
+
+  var greenPlayerIndex = [0, 0, 0, 0].obs;
 
   @override
   void onInit() {
     super.onInit();
     //red player 1
-    redPlayerPos[0][0] = divideWidth + divideWidth / 2;
-    redPlayerPos[0][1] = divideWidth + divideWidth / 2;
+    getRedPositions();
+    getGreenPositions();
+  }
+
+  void getRedPositions() {
+    redCurrentPosition[0][0] = divideWidth + divideWidth / 2;
+    redCurrentPosition[0][1] = divideWidth + divideWidth / 2;
 
     //red player 2
-    redPlayerPos[1][0] = (divideWidth * 4) + divideWidth / 2;
-    redPlayerPos[1][1] = divideWidth + divideWidth / 2;
+    redCurrentPosition[1][0] = (divideWidth * 4) + divideWidth / 2;
+    redCurrentPosition[1][1] = divideWidth + divideWidth / 2;
 
     //red Player 3
-    redPlayerPos[2][0] = divideWidth + divideWidth / 2;
-    redPlayerPos[2][1] = (divideWidth * 4) + divideWidth / 2;
+    redCurrentPosition[2][0] = divideWidth + divideWidth / 2;
+    redCurrentPosition[2][1] = (divideWidth * 4) + divideWidth / 2;
 
     //red player 4
-    redPlayerPos[3][0] = (divideWidth * 4) + divideWidth / 2;
-    redPlayerPos[3][1] = (divideWidth * 4) + divideWidth / 2;
+    redCurrentPosition[3][0] = (divideWidth * 4) + divideWidth / 2;
+    redCurrentPosition[3][1] = (divideWidth * 4) + divideWidth / 2;
+  }
+
+  void getGreenPositions() {
+    greenCurrentPosition[0][0] = (divideWidth * 10) + divideWidth / 2;
+    greenCurrentPosition[0][1] = divideWidth + divideWidth / 2;
+
+    //red player 2
+    greenCurrentPosition[1][0] = (divideWidth * 13) + divideWidth / 2;
+    greenCurrentPosition[1][1] = divideWidth + divideWidth / 2;
+
+    //red Player 3
+    greenCurrentPosition[2][0] = (divideWidth * 10) + divideWidth / 2;
+    greenCurrentPosition[2][1] = (divideWidth * 4) + divideWidth / 2;
+
+    //red player 4
+    greenCurrentPosition[3][0] = (divideWidth * 13) + divideWidth / 2;
+    greenCurrentPosition[3][1] = (divideWidth * 4) + divideWidth / 2;
   }
 
   var data = [
@@ -301,5 +336,11 @@ class PainterController extends GetxController {
     int index = redPath.indexOf(data[i][j]);
     redPositions[index][0] = j * divideWidth + (divideWidth / 2);
     redPositions[index][1] = i * divideWidth + (divideWidth / 2);
+  }
+
+  void addGreenPositions({required int i, required int j}) {
+    int index = greenPath.indexOf(data[i][j]);
+    greenPositions[index][0] = j * divideWidth + (divideWidth / 2);
+    greenPositions[index][1] = i * divideWidth + (divideWidth / 2);
   }
 }

@@ -6,7 +6,10 @@ import 'painter_controller.dart';
 
 class DiskPainter extends CustomPainter {
   PainterController controller;
-  DiskPainter({required this.controller});
+  List playerPos;
+  Color color;
+  DiskPainter(
+      {required this.controller, required this.playerPos, required this.color});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -18,51 +21,13 @@ class DiskPainter extends CustomPainter {
     final fillPaint = Paint()
       ..style = PaintingStyle.fill
       ..color = Colors.black;
-    Player redPlayer = Player(
-      id: 1,
-      name: 'redplayer',
-      disk1: Disk(
-          id: 11,
-          positionX: controller.redPlayerPos[0][0],
-          positionY: controller.redPlayerPos[0][1]),
-      disk2: Disk(
-          id: 11,
-          positionX: controller.redPlayerPos[1][0],
-          positionY: controller.redPlayerPos[1][1]),
-      disk3: Disk(
-          id: 11,
-          positionX: controller.redPlayerPos[2][0],
-          positionY: controller.redPlayerPos[2][1]),
-      disk4: Disk(
-          id: 11,
-          positionX: controller.redPlayerPos[3][0],
-          positionY: controller.redPlayerPos[3][1]),
-    );
 
     drawPlayer(
-        x: controller.redPlayerPos[0][0],
-        y: controller.redPlayerPos[0][1],
+        x: playerPos[0],
+        y: playerPos[1],
         fillPaint: fillPaint,
         canvas: canvas,
-        color: Colors.red);
-    drawPlayer(
-        x: controller.redPlayerPos[1][0],
-        y: controller.redPlayerPos[1][1],
-        fillPaint: fillPaint,
-        canvas: canvas,
-        color: Colors.red);
-    drawPlayer(
-        x: controller.redPlayerPos[2][0],
-        y: controller.redPlayerPos[2][1],
-        fillPaint: fillPaint,
-        canvas: canvas,
-        color: Colors.red);
-    drawPlayer(
-        x: controller.redPlayerPos[3][0],
-        y: controller.redPlayerPos[3][1],
-        fillPaint: fillPaint,
-        canvas: canvas,
-        color: Colors.red);
+        color: color);
   }
 
   @override

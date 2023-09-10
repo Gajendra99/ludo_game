@@ -4,19 +4,19 @@ import 'package:ludo_game/painter/base_painter.dart';
 import 'package:ludo_game/painter/disk_painter.dart';
 import 'package:ludo_game/painter/painter_controller.dart';
 
+import 'player handler/player.dart';
+
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyApp createState() => _MyApp();
-}
+class MyApp extends StatelessWidget {
+  final controller = Get.put(PainterController());
 
-class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    PainterController controller = Get.put(PainterController());
+    print('material app build');
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -27,44 +27,69 @@ class _MyApp extends State<MyApp> {
             padding: const EdgeInsets.all(8.0),
             child: Stack(
               children: [
-                CustomPaint(
-                  size: Size(Get.width - 16,
-                      Get.width - 16), // Size of the drawing area
-                  painter: BasePainter(controller: controller),
+                Obx(
+                  () => controller.isGameUpdated.value
+                      ? CustomPaint(
+                          size: Size(Get.width - 16, Get.width - 16),
+                          painter: BasePainter(controller: controller),
+                        )
+                      : CustomPaint(
+                          size: Size(Get.width - 16, Get.width - 16),
+                          painter: BasePainter(controller: controller),
+                        ),
                 ),
-                CustomPaint(
-                  size: Size(Get.width - 16,
-                      Get.width - 16), // Size of the drawing area
-                  painter: DiskPainter(controller: controller),
-                ),
+                Obx(() => controller.isGameUpdated.value
+                    ? Player(
+                        id: 1,
+                        color: Colors.red,
+                        currentPosition: controller.redCurrentPosition,
+                        con: controller,
+                        image: "assets/player/red.png",
+                        playerIndex: controller.redPlayerIndex,
+                        playerPath: controller.redPositions,
+                      )
+                    : Player(
+                        id: 1,
+                        color: Colors.red,
+                        currentPosition: controller.redCurrentPosition,
+                        con: controller,
+                        image: "assets/player/red.png",
+                        playerIndex: controller.redPlayerIndex,
+                        playerPath: controller.redPositions,
+                      )),
+
+                //Green Player
+                Obx(() => controller.isGameUpdated.value
+                    ? Player(
+                        id: 1,
+                        color: Colors.green,
+                        currentPosition: controller.greenCurrentPosition,
+                        con: controller,
+                        image: "assets/player/green.png",
+                        playerIndex: controller.greenPlayerIndex,
+                        playerPath: controller.greenPositions,
+                      )
+                    : Player(
+                        id: 1,
+                        color: Colors.green,
+                        currentPosition: controller.greenCurrentPosition,
+                        con: controller,
+                        image: "assets/player/green.png",
+                        playerIndex: controller.greenPlayerIndex,
+                        playerPath: controller.greenPositions,
+                      )),
               ],
             ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print('FAB Pressed');
-            print('${controller.divideWidth}');
-            setState(() {
-              print('${controller.redPositions}');
-              controller.redPlayerPos[0][0] =
-                  controller.redPositions[controller.redPlayerIndex][0];
-              controller.redPlayerPos[0][1] =
-                  controller.redPositions[controller.redPlayerIndex][1];
-              controller.redPlayerIndex += 1;
-              print('${controller.redPlayerIndex}');
-              print(
-                  "================================================================");
-              print('${controller.redPlayerPos}');
-              print(
-                  "================================================================");
-            });
+            print('pressed');
           },
           child: Icon(Icons.add),
-          backgroundColor: Colors.blue, // Customize FAB background color
+          backgroundColor: Colors.blue,
         ),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerDocked, // Position the FAB
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
